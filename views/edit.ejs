@@ -1,0 +1,64 @@
+  <%-include("layout/header");-%>
+  <body>
+      <%-include("layout/imgtagcontaineradmin.ejs");-%>
+      <%-include("layout/adminnav.ejs");-%>
+      <main>
+          <div class="heading-panel">
+              <h1>Edit Page</h1>
+          </div>
+            <form id="addPost" method="post" enctype="multipart/form-data">
+              <div class="row mb-3">
+                <label for="PageTitle" class="col-sm-2 col-form-label">PageTitle</label>
+                <% if (typeof(post) !=='undefined' ) { %>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" name="pagetitle" value="<%= post.pagetitle %>">
+                  </div>
+                <% } %>
+                <% if (typeof(post) ==='undefined' ) { %>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" name="pagetitle">
+                  </div>
+                <% } %>
+              </div>
+              <% if (typeof(post) !=='undefined' ) { %>
+                <div class="row mb-3">
+                    <label for="uploadedImage" class="col-sm-2 col-form-label">Uploaded Image</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputEmail3" name="uploadedImage" value="<%= post.heroImage %>" disabled>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile02" name="heroimage">
+                </div>
+              <%}%>
+              <% if (typeof(post) === 'undefined' ) { %>
+                <div class="row mb-3">
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02" name="heroimage">
+                  </div>
+                </div>
+              <%}%>
+              
+              <% if (typeof(post) === 'undefined' ) { %>
+                <div id="editor"></div>
+                <input type="text" style="display: none;"  name="body" id="body">
+                <input type="text" style="display: none;"  name="content" id="content">
+              <% } %>
+
+              <% if (typeof(post) !== 'undefined' ) { %>
+                <div id="editor"><%-post.body%></div>
+                <input type="text" style="display: none;"  name="body" id="body">
+                <input type="text" style="display: none;"  name="content" id="content">
+              <% } %>
+              
+              <input type="submit" class="btn btn-primary" value="Submit" />
+              <% if (typeof(err) !=='undefined' ) { %>
+                <div style="margin: 10px 0;">
+                  <span style="color: red;"><%= err %></span>
+                </div>
+              <%}%>
+            </form>          
+      </main>
+      <%-include("layout/footer");-%>
+  </body>
+  </html>

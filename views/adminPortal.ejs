@@ -1,0 +1,15 @@
+<%-include("layout/header");-%>
+<body>
+    <%-include("layout/imgtagcontaineradmin.ejs");-%>
+    <%-include("layout/adminnav.ejs");-%>
+    <main  style="height: 500px;">
+        <% if(typeof(heading)!=='undefined') { %>
+            <h1 style="text-align: center;"><%=heading%></h1>
+        <% } %>  
+        <% if(typeof(subheading)!=='undefined') { %>
+            <h4 style="text-align: center;"><%=subheading%></h4>
+        <% } %>            
+    </main>
+    <%-include("layout/footer");-%>
+</body>
+</html>

@@ -1,0 +1,40 @@
+    <%-include("layout/header");-%>
+    <body>
+        <%-include("layout/imgtagcontaineradmin.ejs");-%>
+        <%-include("layout/adminnav.ejs");-%>
+        <main>
+            <div class="heading-panel">
+                <h1>Edit Pages</h1>
+            </div>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Page</th>
+                        <th scope="col">Manage</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <% if (typeof(pages) !=='undefined' ) { for (let page of pages) { %>
+                            <tr>
+                                <td>
+                                    <%= page.pagetitle %>
+                                </td>
+                                <td>
+                                    <a style="text-decoration: none; color: black;" href="/edit/<%=page._id%>">Edit</a>
+                                </td>
+                                <td>
+                                    <a style="text-decoration: none; color: black;" href="/delete/<%=page._id%>">Delete</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                         <% } %>
+                    </tbody>
+                </table>
+            </div>
+                    
+        </main>
+        <%-include("layout/footer");-%>
+    </body>
+    </html>

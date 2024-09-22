@@ -1,0 +1,42 @@
+<%-include("layout/header");-%>
+<body>
+    <%-include("layout/imgtagcontaineruser.ejs");-%>
+    <% if (typeof(pages) !=='undefined' && pages.length > 0 ) {  %>
+        <nav>
+            <ul class="user-nav">
+                <% if (typeof(pages) !=='undefined' ) { for (let page of pages) { %>
+                    <li>
+                        <a href="#<%=page._id%>" style="text-decoration: none; color: #fff"><%=page.pagetitle %></a>
+                    </li>
+                    <% } %>
+                <% } %>
+            </ul>
+        </nav>
+    <% } %>
+    <main>
+        <% if (typeof(pages) === 'undefined' || pages.length === 0 ) {  %>
+            <p style="text-align: center; font-weight: bolder;">Please login as Admin to add new posts</p>
+        <% } %> 
+        
+        <% if(pages.length > 0) { %>
+            <div class="post">
+                <% for(let page of pages) { %>
+                <div class="postcontainer" id="<%=page._id %>">
+                    <div class="heroimage">
+                        <img src="heroimage/<%=page.heroImage %>" alt="<%=page.heroImage %>">
+                    </div>
+                    <div class="postbody">
+                        <h1><%=page.pagetitle%></h1>
+                        <p><%-page.body%></p>
+                    </div>
+                </div> 
+                <% } %>
+            </div>
+        <%} %>
+    </main>
+    <%-include("layout/footer");-%>
+    <script>
+        $('.ql-tooltip').hide();
+    </script>
+</body>
+</html>
