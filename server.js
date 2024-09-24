@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const blogTimeApp = express();
 const path = require("node:path");
@@ -58,7 +58,7 @@ blogTimeApp.use(fileUpload());
 //set the views folder
 blogTimeApp.set("views", __dirname + "/views");
 
-// set the ejs engine 
+// set the ejs engine
 blogTimeApp.set("view engine", "ejs");
 
 //set the port
@@ -100,7 +100,7 @@ blogTimeApp.get("/admin", getAdminPortal);
 
 //connect to DB
 //mongoose.connect("mongodb://localhost:27017/blogtime");
-const db = require('./connectDB');
+const db = require("./connectDB");
 db();
 
 blogTimeApp.listen(PORT, () => {
