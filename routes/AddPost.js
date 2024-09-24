@@ -1,6 +1,8 @@
+require("dotenv").config();
 const Post = require("../models/Post");
 
 const AddPostPage = (req, res) => {
+  let heroImagePath;
   if (
     req.body.pagetitle.length !== 0 &&
     req.files !== null &&
@@ -13,7 +15,11 @@ const AddPostPage = (req, res) => {
     let heroImage = req.files.heroimage;
 
     //get the path
-    let heroImagePath = `public/heroimage/${fileName}`;
+    if (process.env.ENV === "DEV") {
+      heroImagePath = `public/heroimage/${fileName}`;
+    } else {
+      heroImagePath = `/tmp/`;
+    }
 
     //store the image in the public folder
     heroImage.mv(heroImagePath, (err) => {
