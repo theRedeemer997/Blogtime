@@ -1,9 +1,9 @@
-const { default: mongoose } = require("mongoose");
+const { mongoose, Schema } = require("mongoose");
 
-const Post = mongoose.model("Post", {
-  pagetitle: String,
-  heroImage: String,
-  body: String,
+const Post = new Schema({
+    pagetitle: String,
+    heroImage: String,
+    body: String,
 });
 
-module.exports = Post;
+module.exports = mongoose.model("Post", Post);

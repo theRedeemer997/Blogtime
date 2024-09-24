@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const blogTimeApp = express();
 const path = require("node:path");
@@ -41,7 +42,7 @@ const getAdminPortal = require("./routes/renderAdminPortal");
 blogTimeApp.use(express.urlencoded({ extended: false }));
 
 //set the public folder
-blogTimeApp.use(express.static(__dirname + "/public"));
+blogTimeApp.use(express.static(path.join(__dirname + "/public")));
 
 //set the session
 blogTimeApp.use(
@@ -55,13 +56,13 @@ blogTimeApp.use(
 blogTimeApp.use(fileUpload());
 
 //set the views folder
-blogTimeApp.set("views", path.join(__dirname, "views"));
+blogTimeApp.set("views", __dirname + "/views");
 
-// set the ejs engine
+// set the ejs engine 
 blogTimeApp.set("view engine", "ejs");
 
 //set the port
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 //render the userview
 blogTimeApp.get("/", renderAsUser);
@@ -98,7 +99,9 @@ blogTimeApp.get("/logout", logoutAction);
 blogTimeApp.get("/admin", getAdminPortal);
 
 //connect to DB
-mongoose.connect("mongodb://localhost:27017/blogtime");
+//mongoose.connect("mongodb://localhost:27017/blogtime");
+const db = require('./connectDB');
+db();
 
 blogTimeApp.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
