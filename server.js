@@ -5,6 +5,7 @@ const path = require("node:path");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 //get check from the express validator
 const { check } = require("express-validator");
@@ -45,11 +46,22 @@ blogTimeApp.use(express.urlencoded({ extended: false }));
 blogTimeApp.use(express.static(path.join(__dirname + "/public")));
 
 //set the session
+// blogTimeApp.use(
+//   session({
+//     secret: "iamakoolguy",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 blogTimeApp.use(
   session({
-    secret: "iamakoolguy",
+    secret: "iamakoolguy", // Replace with a secure random string
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.mongoUri, // MongoDB connection string
+      ttl: 14 * 24 * 60 * 60, // 14 days
+    }),
   })
 );
 
