@@ -1,4 +1,4 @@
-const LogoutAction = (req, res) => {
+const LogoutAction = async (req, res) => {
   req.session.destroy();
   res.redirect("/");
 };

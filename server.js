@@ -3,9 +3,31 @@ const express = require("express");
 const blogTimeApp = express();
 const path = require("node:path");
 const mongoose = require("mongoose");
-const fileUpload = require("express-fileupload");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+// Setting up multer as a middleware to grab photo uploads
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
+
+//set the session
+// blogTimeApp.use(
+//   session({
+//     secret: "iamakoolguy",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
+blogTimeApp.use(
+  session({
+    secret: "iamakoolguy", // Replace with a secure random string
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.mongoUri, // MongoDB connection string
+      ttl: 14 * 24 * 60 * 60, // 14 days
+    }),
+  })
+);
 
 //get check from the express validator
 const { check } = require("express-validator");
@@ -45,27 +67,7 @@ blogTimeApp.use(express.urlencoded({ extended: false }));
 //set the public folder
 blogTimeApp.use(express.static(path.join(__dirname + "/public")));
 
-//set the session
-// blogTimeApp.use(
-//   session({
-//     secret: "iamakoolguy",
-//     resave: false,
-//     saveUninitialized: true,
-//   })
-// );
-blogTimeApp.use(
-  session({
-    secret: "iamakoolguy", // Replace with a secure random string
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.mongoUri, // MongoDB connection string
-      ttl: 14 * 24 * 60 * 60, // 14 days
-    }),
-  })
-);
-
-blogTimeApp.use(fileUpload());
+//blogTimeApp.use(fileUpload());
 
 //set the views folder
 blogTimeApp.set("views", __dirname + "/views");
@@ -86,7 +88,7 @@ blogTimeApp.get("/login", getLoginPage);
 blogTimeApp.get("/addPost", getAddPostPage);
 
 //push the post to db
-blogTimeApp.post("/addPost", postThePost);
+blogTimeApp.post("/addPost", upload.single("heroimage"), postThePost);
 
 //get the edit page --> page with all the post
 blogTimeApp.get("/editPages", getTheEditPage);
@@ -113,6 +115,7 @@ blogTimeApp.get("/admin", getAdminPortal);
 //connect to DB
 //mongoose.connect("mongodb://localhost:27017/blogtime");
 const db = require("./connectDB");
+const { initializeApp } = require("firebase/app");
 db();
 
 blogTimeApp.listen(PORT, () => {

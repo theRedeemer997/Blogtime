@@ -48,6 +48,6 @@ const handleEdit = (req, res) => {
       err: "Please fill all the details to submit successfully",
     });
   }
-};
+};  
 
 module.exports = handleEdit;
