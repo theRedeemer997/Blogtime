@@ -11,10 +11,10 @@ const config = require("../config/firebaseConfig");
 const Post = require("../models/Post");
 
 //Initialize a firebase application
-initializeApp(config);
+const app = initializeApp(config);
 
 // Initialize Cloud Storage and get a reference to the service
-const storage = getStorage();
+const storage = getStorage(app);
 
 const AddPostPage = async (req, res) => {
   if (
